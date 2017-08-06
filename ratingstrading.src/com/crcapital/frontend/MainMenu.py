@@ -29,5 +29,3 @@ user_number_positions = input("How many positions would you like to buy?")
 
 Trade(user_security,user_price_per_position,user_number_positions).place_trade()
 
-
-
