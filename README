@@ -1,1 +1,1 @@
-Trading credit ratings when companies get upgraded/downgraded on Moody's. Interfaces with Interactive Brokers API and Scrapy framework.
+Trading credit ratings when companies get upgraded/downgraded on Moody's and S&P. Interfaces with Interactive Brokers API and Scrapy framework. Also employs Matplotlib library to visualize trading performance on the frontend.
