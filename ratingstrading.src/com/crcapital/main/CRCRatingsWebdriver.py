@@ -142,3 +142,32 @@ class CRCRatingsWebdriver:
         except Exception as e:
             logging.error(e)
             return e
+
+    """
+        This method is used to search the EDGAR SEC webpage and determine if the company is publicly traded
+        :param security: The security to be entered into the search bar
+        :return: The url of the webpage to be scraped as a string, or an error string
+    """
+    def edgarSEC(self, security):
+        try:
+            # Go to the EDGAR SEC website
+            driver.get("https://www.sec.gov/edgar/searchedgar/companysearch.html")
+
+            # Go to the search button and enter the appropriate security name into the search box
+            driver.find_element_by_id("lesscompany").clear()
+            driver.find_element_by_id("lesscompany").send_keys(security)
+            driver.find_element_by_id("search_button_1").click()
+
+            # Get the current URL for the spider to crawl
+            url = driver.current_url
+            logging.debug("Value of current SEC URL: " + url)
+
+            # Close the driver
+            driver.close()
+            driver.quit()
+
+            return url
+
+        except Exception as e:
+            logging.error(e)
+            return e

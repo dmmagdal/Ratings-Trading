@@ -4,22 +4,28 @@ Author: Cristian Gonzales
 """
 
 import logging
-from CRCRatingsWebdriver import CRCRatingsWebdriver
+
+import sys
+sys.path.append('/com/crcapital/ratingscrawler/ratingscrawler')
+
+# Scrapy API
+from scrapy.crawler import CrawlerProcess
+
 
 """
     This is the main method that employs the use of scraping spiders and webdrivers in order to display information
-    and interface with the brokerage API
+    and interface with the brokerage API. The logic behind implementing Selenium is to have a more robust way of
+    the URL after all the filters are selected. In the case that there are minute changes in the structure of the
+    webpage or URL, it will be less prone to bugs.
 """
 
 def main():
 
-    # Logic for webcrawling Moody's website (use the current URL to webcrawl)
-    driver = CRCRatingsWebdriver()
-    moodysURL = driver.moodys()
+    # Crawler process
+    process = CrawlerProcess({'SPIDER_MODULES': 'com.crcapital.ratingscrawler.ratingscrawler.spiders'})
 
-    # Logic for webcrawling S&P's website (use the current URL to webcrawl)
-    # driver = CRCRatingsWebdriver()
-    # sandpURL = driver.standardandpoors()
+    process.crawl("Securities")
+    process.start()
 
 
 if __name__ == "__main__":

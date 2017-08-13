@@ -6,6 +6,9 @@
 import logging
 import scrapy
 
+from com.crcapital.main import CRCRatingsWebdriver
+
+# TODO: Incorporate error handling so that if the URL returned is an error then it can be handled appropriately
 class CRCRatingsMoodys(scrapy.Spider):
 
     # Identifies the spider
@@ -13,18 +16,29 @@ class CRCRatingsMoodys(scrapy.Spider):
 
     # Returns iterable of Requests to begin to crawl from
     def start_requests(self):
+        # Logic for webcrawling Moody's website (use the current URL to webcrawl)
+        driver = CRCRatingsWebdriver.CRCRatingsWebdriver()
+        moodysURL = driver.moodys()
+        # Array of URLs to iterate over
         urls = [
-            # Figure out what urls to put here...
+            moodysURL
         ]
         for url in urls:
             yield scrapy.Request(url=url, callback=self.parse)
 
     # Handle response downloaded for each request made
     def parse(self, response):
-
-        # Saves whole HTML page locally (temporary)
-        page = response.url.split("/")[-2]
-        filename = 'securities-%s.html' % page
-        with open(filename, 'wb') as f:
-            f.write(response.body)
-        logging.info('Saved file %s' % filename)
+        # For each title...
+        for title in response.xpath(
+                '//*[contains(concat( " ", @class, " " ), concat( " ", "mdcResearchDocLink", " " ))]'
+        ):
+            # Dictionary of titles to determine which are publicly traded or not...
+            yield
+            {
+                'TITLE': response.xpath(
+                    '//*[contains(concat( " ", @class, " " ), concat( " ", "mdcResearchDocLink", " " ))]'
+                ).extract(),
+                'COMPANY': response.css(
+                    '.mdcResearchDocTypeValue~ td+ td a'
+                ).extract()
+            }

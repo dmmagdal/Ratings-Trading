@@ -7,6 +7,7 @@
           <option value="CRCRatingsWebdriver" />
           <option value="webbrowser.Firefox" />
           <option value="webbrowser.Edge" />
+          <option value="CRCRatingsMoodys" />
         </list>
       </option>
     </inspection_tool>
