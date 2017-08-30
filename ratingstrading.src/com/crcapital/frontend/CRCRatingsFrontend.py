@@ -3,7 +3,11 @@
 
 from tkinter import *
 
-class Page:
+class Page(tkinter.Frame):
+    def __init__(self):
+
+
+class MainView:
     def __init__(self, master):
         frame = Frame(master)
         frame.pack()
