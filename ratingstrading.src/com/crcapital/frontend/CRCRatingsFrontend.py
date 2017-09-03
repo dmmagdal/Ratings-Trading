@@ -1,13 +1,17 @@
-# Property of CR Capital, LLC. All rights reserved.
-# Author: Bill Patterson
+"""
+    Property of CR Capital, LLC. All rights reserved.
+    Author: Bill Patterson
+"""
+import tkinter
+from tkinter import Label
+from tkinter import Frame
+from tkinter import StringVar
+from tkinter import Radiobutton
+from tkinter import Button
+from tkinter import Tk
 
-from tkinter import *
+class CRCRatingsFrontend(tkinter.Frame):
 
-class Page(tkinter.Frame):
-    def __init__(self):
-
-
-class MainView:
     def __init__(self, master):
         frame = Frame(master)
         frame.pack()
@@ -27,8 +31,9 @@ class MainView:
 
         next = Button(master, text='Next')
         next.pack()
+
 root = Tk()
 
-app = App(root)
+app = CRCRatingsFrontend(root)
 
 root.mainloop()

@@ -7,12 +7,18 @@ import logging
 import scrapy
 
 from com.crcapital.main import CRCRatingsWebdriver
+from com.crcapital.ratingscrawler.ratingscrawler.CRCRatingsPair import CRCRatingsPair
 
 # TODO: Incorporate error handling so that if the URL returned is an error then it can be handled appropriately
+
 class CRCRatingsMoodys(scrapy.Spider):
 
     # Identifies the spider
     name = "Securities"
+
+    # Initialize key-value pair as an empty list
+    global pairsList
+    pairsList = []
 
     # Returns iterable of Requests to begin to crawl from
     def start_requests(self):
@@ -28,17 +34,24 @@ class CRCRatingsMoodys(scrapy.Spider):
 
     # Handle response downloaded for each request made
     def parse(self, response):
-        # For each title...
-        for title in response.xpath(
+        # Declaring the names, statuses, and titles lists
+        names = response.xpath(
+            '//*[contains(concat( " ", @class, " " ), concat( " ", "mdcResearchDocLink", " " ))]'
+        ).extract()
+        statuses = response.css(
+            '.mdcResearchDocTypeValue~ td+ td a'
+        ).extract()
+        titles = len(response.xpath(
                 '//*[contains(concat( " ", @class, " " ), concat( " ", "mdcResearchDocLink", " " ))]'
-        ):
-            # Dictionary of titles to determine which are publicly traded or not...
-            yield
-            {
-                'TITLE': response.xpath(
-                    '//*[contains(concat( " ", @class, " " ), concat( " ", "mdcResearchDocLink", " " ))]'
-                ).extract(),
-                'COMPANY': response.css(
-                    '.mdcResearchDocTypeValue~ td+ td a'
-                ).extract()
-            }
+        ))
+        # Declaring the pair object to add to the global list of key-value pairs
+        pairObj = CRCRatingsPair
+        for title in range(titles):
+            # Setting the names
+            pairObj.set_name(names[title])
+            logging.debug(pairObj.get_name())
+            # Setting the status
+            pairObj.set_status(statuses[title])
+            logging.debug(pairObj.get_status())
+            # Adding the obj to the list
+            pairsList.append(pairObj)

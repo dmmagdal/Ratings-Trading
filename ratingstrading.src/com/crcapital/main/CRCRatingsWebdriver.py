@@ -15,7 +15,7 @@ from selenium.webdriver.support.ui import Select
     :var myDriver: The global driver to navigate through the respective webpage (Moody's/S&P)
 """
 
-
+# TODO: Refine S&P webdriver's functionality
 class CRCRatingsWebdriver:
 
     driver = None
