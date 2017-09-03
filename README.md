@@ -2,10 +2,10 @@
 
 ## Contributors: Cristian Gonzales (@cristiangonzales) <xcristian.gonzales@gmail.com>, Bill Patterson (@bpatterson500) <clarinet500@gmail.com>
 
-## Property of CR Capital, LLC. All rights reserved.
-## Unauthorized copying of these files, via any medium is strictly prohibited
-## Proprietary and confidential
-## Written by Cristian Gonzales <xcristian.gonzales@gmail.com>, September 2017
+> Property of CR Capital, LLC. All rights reserved.
+> Unauthorized copying of these files, via any medium is strictly prohibited
+> Proprietary and confidential
+> Written by Cristian Gonzales <xcristian.gonzales@gmail.com>, September 2017
 
 # Summary
 Trading credit ratings when companies get upgraded/downgraded on Moody's and S&P. Interfaces with Interactive Brokers API, and Scrapy, Selenium, and Tkinter frameworks. Also employs Matplotlib library to visualize trading performance on the frontend.
