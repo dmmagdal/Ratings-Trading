@@ -57,21 +57,20 @@ class CRCRatingsMoodys(scrapy.Spider):
 
     def data_storing(self, names, statuses):
         # Declaring the pair object to add to the global list of key-value pairs
-        pairObj = CRCRatingsPair
+        pairObj = CRCRatingsPair()
 
         for i in range(len(names)):
             try:
                 # Debugging
-                print("Company name: " + names[i])
-                print("Credit status: " + statuses[i])
+                logging.debug("Company name: " + names[i])
+                logging.debug("Credit status: " + statuses[i])
                 # Setting the names
                 pairObj.set_name(names[i])
-                logging.debug(pairObj.get_name())
+                logging.debug("ADT name: " + pairObj.get_name())
                 # Setting the status
                 pairObj.set_status(statuses[i])
-                logging.debug(pairObj.get_status())
+                logging.debug("ADT status: " + pairObj.get_status())
                 # Adding the obj to the list
                 pairsList.append(pairObj)
             except Exception as e:
                 logging.error(e)
-

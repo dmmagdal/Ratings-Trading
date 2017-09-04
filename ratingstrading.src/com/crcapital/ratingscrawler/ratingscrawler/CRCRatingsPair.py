@@ -14,7 +14,6 @@ import requests
     in an array of CRCRatingPairs.
 """
 class CRCRatingsPair:
-    global status, name, ticker
 
     def __init__(self):
         return
@@ -31,7 +30,7 @@ class CRCRatingsPair:
     """
     def get_name(self):
         try:
-            return name
+            return self.name
         except Exception as e:
             logging.error(e)
             return
@@ -48,7 +47,7 @@ class CRCRatingsPair:
     """
     def get_status(self):
         try:
-            return status
+            return self.status
         except Exception as e:
             logging.error(e)
             return
@@ -67,7 +66,7 @@ class CRCRatingsPair:
             result = requests.get(url).json
 
             for x in result['ResultSet']['Result']:
-                if x['name'] == name:
+                if x['name'] == self.name:
                     self.ticker = x['symbol']
 
         except Exception as e:
@@ -79,7 +78,7 @@ class CRCRatingsPair:
     """
     def get_ticker(self):
         try:
-            return ticker
+            return self.ticker
         except Exception as e:
             logging.error(e)
             return
