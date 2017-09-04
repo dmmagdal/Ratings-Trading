@@ -4,7 +4,10 @@
 """
 
 import logging
+
 import scrapy
+
+import threading
 
 from com.crcapital.main import CRCRatingsWebdriver
 from com.crcapital.ratingscrawler.ratingscrawler.CRCRatingsPair import CRCRatingsPair
@@ -35,23 +38,40 @@ class CRCRatingsMoodys(scrapy.Spider):
     # Handle response downloaded for each request made
     def parse(self, response):
         # Declaring the names, statuses, and titles lists
-        names = response.xpath(
+        comp_names = response.xpath(
             '//*[contains(concat( " ", @class, " " ), concat( " ", "mdcResearchDocLink", " " ))]'
         ).extract()
-        statuses = response.css(
-            '.mdcResearchDocTypeValue~ td+ td a'
+        logging.debug("names length: " + str(len(comp_names)))
+
+        # Commented out because it was inconsistent with the length of the names array
+        # statuses = response.css(
+        #     '.mdcResearchDocTypeValue~ td+ td a'
+        # ).extract()
+        credit_statuses = response.css(
+            '.mdcResearchDocTypeValue~ td+ td'
         ).extract()
-        titles = len(response.xpath(
-                '//*[contains(concat( " ", @class, " " ), concat( " ", "mdcResearchDocLink", " " ))]'
-        ))
+        logging.debug("statuses length: " + str(len(credit_statuses)))
+
+        # Start a new thread to actually parse the data
+        threading.Thread(target=self.data_storing(comp_names, credit_statuses)).start()
+
+    def data_storing(self, names, statuses):
         # Declaring the pair object to add to the global list of key-value pairs
         pairObj = CRCRatingsPair
-        for title in range(titles):
-            # Setting the names
-            pairObj.set_name(names[title])
-            logging.debug(pairObj.get_name())
-            # Setting the status
-            pairObj.set_status(statuses[title])
-            logging.debug(pairObj.get_status())
-            # Adding the obj to the list
-            pairsList.append(pairObj)
+
+        for i in range(len(names)):
+            try:
+                # Debugging
+                print("Company name: " + names[i])
+                print("Credit status: " + statuses[i])
+                # Setting the names
+                pairObj.set_name(names[i])
+                logging.debug(pairObj.get_name())
+                # Setting the status
+                pairObj.set_status(statuses[i])
+                logging.debug(pairObj.get_status())
+                # Adding the obj to the list
+                pairsList.append(pairObj)
+            except Exception as e:
+                logging.error(e)
+
