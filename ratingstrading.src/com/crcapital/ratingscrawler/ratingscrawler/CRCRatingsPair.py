@@ -4,8 +4,8 @@
 """
 
 import logging
-
 import requests
+import re
 
 """
     This is the ADT that will store the acting key-value pair for the status of the company (upgrade or
@@ -60,18 +60,36 @@ class CRCRatingsPair:
         :return void
     """
     def set_ticker(self):
+
+        # Initial value of ticker class variable to be "N/A"
+        self.ticker = "None"
+
         try:
-            url = "http://d.yimg.com/autoc.finance.yahoo.com/autoc?query={}&region=1&lang=en".format(name)
+            # Quick hard-coded hack, betting on the corporation name being more than two words long. With this,
+            # querying the Yahoo Finance DB for the ticker name will be much easier. More robust functionality with
+            # this is a minute but important feature that may be explored in the future.
+            name = re.split(' |, ', self.name)
+            logging.debug("name[0]: " + name[0])
+            logging.debug("name[1]: " + name[1])
+            corp_name = name[0] + " " + name[1]
+            # url = "http://d.yimg.com/autoc.finance.yahoo.com/autoc?query={}&region=1&lang=en".format(self.name)
+            url = "http://d.yimg.com/autoc.finance.yahoo.com/autoc?query={}&region=1&lang=en".format(corp_name)
+            logging.debug("URL: " + url)
+            result = requests.get(url).json()
+            logging.debug("JSON: " + str(result))
 
-            result = requests.get(url).json
-
+            # For the resulting JSON, if the company is publicly traded and the parsed down company name is in
+            # the JSON attribute "name", then make the ticker class variable equal to the value for the
+            # JSON attribute "symbol"
+            # The ticker will be initialized to "N/A" if no matches are ever found
             for x in result['ResultSet']['Result']:
-                if x['name'] == self.name:
+                if corp_name in x['name'] and (x['exchDisp'] == 'NYSE' or x['exchDisp'] == 'NASDAQ'):
                     self.ticker = x['symbol']
+
+            logging.debug("Ticker: " + self.ticker)
 
         except Exception as e:
             logging.error(e)
-            return
 
     """
         :return ticker: the ticker of the security
@@ -81,4 +99,3 @@ class CRCRatingsPair:
             return self.ticker
         except Exception as e:
             logging.error(e)
-            return

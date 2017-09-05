@@ -7,6 +7,8 @@ import logging
 
 import scrapy
 
+from tkinter import messagebox, Tk
+
 import threading
 from bs4 import BeautifulSoup
 
@@ -19,10 +21,6 @@ class CRCRatingsMoodys(scrapy.Spider):
 
     # Identifies the spider
     name = "Securities"
-
-    # Initialize key-value pair as an empty list
-    global pairsList
-    pairsList = []
 
     # Returns iterable of Requests to begin to crawl from
     def start_requests(self):
@@ -44,24 +42,32 @@ class CRCRatingsMoodys(scrapy.Spider):
     def parse(self, response):
         try:
             # Declaring the names, statuses, and titles lists
-            comp_names = response.xpath(
+            credit_statuses = response.xpath(
                 '//*[contains(concat( " ", @class, " " ), concat( " ", "mdcResearchDocLink", " " ))]'
             ).extract()
-            logging.debug("names length: " + str(len(comp_names)))
+            logging.debug("statuses length: " + str(len(credit_statuses)))
 
             # Commented out because it was inconsistent with the length of the names array
             # credit_statuses = response.css(
             #     '.mdcResearchDocTypeValue~ td+ td a'
             # ).extract()
-            credit_statuses = response.css(
+            comp_names = response.css(
                 '.mdcResearchDocTypeValue~ td+ td'
             ).extract()
-            logging.debug("statuses length: " + str(len(credit_statuses)))
+            logging.debug("names length: " + str(len(comp_names)))
 
             # Start a new thread to actually parse the data
             threading.Thread(target=self.data_storing(comp_names, credit_statuses)).start()
+
         except Exception as e:
             logging.error(e)
+            # Error Box pop up
+            errorbox = Tk()
+            errorbox.withdraw()
+            messagebox.showerror("ERROR", "Error message: " + e
+                                + "\nOops, sorry! Something seems to be broken."
+                                + "\nPlease submit a fix request here: "
+                                + "\nhttps://github.com/cristiangonzales/Ratings-Trading/issues")
 
     """
         New thread to parse the data as HTML and store inside ADT
@@ -70,34 +76,42 @@ class CRCRatingsMoodys(scrapy.Spider):
         :return: void
     """
     def data_storing(self, names, statuses):
-        # Declaring the pair object to add to the global list of key-value pairs
-        pairObj = CRCRatingsPair()
+
+        # Initialize key-value pair as an empty list
+        self.pairsList = []
 
         # Storing each item in ADT (to be stored in an array of ADTs)
         for i in range(len(names)):
-            try:
-                # logging.debug("Company name (HTML): " + names[i])
-                # logging.debug("Credit status (HTML): " + statuses[i])
 
+            logging.debug("Company name (HTML): " + names[i])
+            logging.debug("Credit status (HTML): " + statuses[i])
+
+            # Declaring the pair object to add to the global list of key-value pairs
+            pairObj = CRCRatingsPair()
+
+            try:
                 # Setting the names using BeautifulSoup
                 name_soup = BeautifulSoup(names[i], "lxml")
                 name = name_soup.a.string
-                logging.debug(name)
                 pairObj.set_name(name)
                 logging.debug("ADT name: " + pairObj.get_name())
 
                 # Setting the status using BeautifulSoup
                 status_soup = BeautifulSoup(statuses[i], "lxml")
                 status = status_soup.a.string
-                logging.debug(status)
                 pairObj.set_status(status)
                 logging.debug("ADT status: " + pairObj.get_status())
+
+                # Some checking for the ticker...
+                pairObj.set_ticker()
+                logging.debug("ADT ticker: " + pairObj.get_ticker())
 
                 # Quick hack around ellipses is to just skip it for simplicity. This is something that can be
                 # explored in the future. For now, if the name contains an ellipses, then the object it is
                 # associated with is not added to the list.
-                if "..." not in name:
+                if pairObj.get_ticker() != "None":
                     # Adding the obj to the list
                     self.pairsList.append(pairObj)
             except Exception as e:
                 logging.error(e)
+        return
