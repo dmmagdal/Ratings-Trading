@@ -23,6 +23,14 @@ Trading credit ratings when companies get upgraded/downgraded on Moody's and S&P
 
 # Misc. Notes
 * As of now, the only tested functionality is with the Google Chrome web browser.
+* As mentioned, there is potential to feature other brokerages that offer open source APIs.
+* There is work to be done on the frontend as well.
+
+# Known bugs
+* Thread that initiates the frontend causes the spider to have an error.
+
+# Todos
+* Fix the desktop/application icon
 
 # Functionality to be explored in the future
 * Because this is a proof of concept, other functionality with other brokerage will not be implemented at this time, but perhaps at another time.

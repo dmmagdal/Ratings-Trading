@@ -5,6 +5,8 @@
 
 import logging
 
+from tkinter import messagebox, Tk
+
 from selenium import webdriver
 from selenium.webdriver.support.ui import Select
 
@@ -60,7 +62,13 @@ class CRCRatingsWebdriver:
                                 logging.debug("User does not have Opera")
         except Exception as e:
             logging.error(e)
-            return
+            # Error Box pop up
+            errorbox = Tk()
+            errorbox.withdraw()
+            messagebox.showerror("ERROR", "Error message: " + str(e) +
+                                 "\nOops, sorry! Something seems to be broken." +
+                                 "\nPlease submit a fix request here: " +
+                                 "\nhttps://github.com/cristiangonzales/Ratings-Trading/issues")
 
     """
         Using user's browser as webdriver to get to Moody's Credit Ratings
@@ -102,7 +110,13 @@ class CRCRatingsWebdriver:
 
         except Exception as e:
             logging.error(e)
-            return e
+            # Error Box pop up
+            errorbox = Tk()
+            errorbox.withdraw()
+            messagebox.showerror("ERROR", "Error message: " + str(e) +
+                                 "\nOops, sorry! Something seems to be broken." +
+                                 "\nPlease submit a fix request here: " +
+                                 "\nhttps://github.com/cristiangonzales/Ratings-Trading/issues")
 
     """
         Using user's browser as webdriver to get to S&P's Credit Ratings
@@ -141,10 +155,17 @@ class CRCRatingsWebdriver:
 
         except Exception as e:
             logging.error(e)
-            return e
+            # Error Box pop up
+            errorbox = Tk()
+            errorbox.withdraw()
+            messagebox.showerror("ERROR", "Error message: " + str(e) +
+                                 "\nOops, sorry! Something seems to be broken." +
+                                 "\nPlease submit a fix request here: " +
+                                 "\nhttps://github.com/cristiangonzales/Ratings-Trading/issues")
 
     """
         This method is used to search the EDGAR SEC webpage and determine if the company is publicly traded
+        (This method is currently obsolete but kept if there are any future applications to interface with it)
         :param security: The security to be entered into the search bar
         :return: The url of the webpage to be scraped as a string, or an error string
     """

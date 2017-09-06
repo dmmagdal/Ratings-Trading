@@ -13,9 +13,8 @@ import threading
 from bs4 import BeautifulSoup
 
 from com.crcapital.main import CRCRatingsWebdriver
+from com.crcapital.frontend.CRCRatingsFrontend import CRCRatingsFrontend
 from com.crcapital.ratingscrawler.ratingscrawler.CRCRatingsPair import CRCRatingsPair
-
-# TODO: Incorporate error handling so that if the URL returned is an error then it can be handled appropriately
 
 class CRCRatingsMoodys(scrapy.Spider):
 
@@ -57,17 +56,28 @@ class CRCRatingsMoodys(scrapy.Spider):
             logging.debug("names length: " + str(len(comp_names)))
 
             # Start a new thread to actually parse the data
-            threading.Thread(target=self.data_storing(comp_names, credit_statuses)).start()
+            dataThread = threading.Thread(target=self.data_storing(comp_names, credit_statuses))
+            dataThread.start()
+            dataThread.join()
+
+            # Starting a new thread that is initiating an instance of the frontend class to pass the data
+            # appropriately and initiate the UI
+            UI_Thread = threading.Thread(target=CRCRatingsFrontend(self.pairsList))
+            UI_Thread.start()
+
+            # Wait for threads to finish execution
+            dataThread.join()
+            UI_Thread.join()
 
         except Exception as e:
             logging.error(e)
             # Error Box pop up
             errorbox = Tk()
             errorbox.withdraw()
-            messagebox.showerror("ERROR", "Error message: " + e
-                                + "\nOops, sorry! Something seems to be broken."
-                                + "\nPlease submit a fix request here: "
-                                + "\nhttps://github.com/cristiangonzales/Ratings-Trading/issues")
+            messagebox.showerror("ERROR", "Error message: " + str(e) +
+                                 "\nOops, sorry! Something seems to be broken." +
+                                 "\nPlease submit a fix request here: " +
+                                 "\nhttps://github.com/cristiangonzales/Ratings-Trading/issues")
 
     """
         New thread to parse the data as HTML and store inside ADT
