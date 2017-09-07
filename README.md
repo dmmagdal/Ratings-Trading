@@ -20,6 +20,7 @@ Trading credit ratings when companies get upgraded/downgraded on Moody's and S&P
 * With this, all you need to do is keep the desktop app on idle or run in the background, and it will dump all the bought shares (or cover the short) and terminate by 4:00 PM EST. There will also be an option to track performance using real-time data.
 * The application is to be used on a day-to-day basis. 
 * If there are any issues, please submit a fix request.
+* **As it stands, this is a work in-progress and a fully functional UI has not yet been develop. As we are in the early stages in development, you may currently run CRCRatingsMain in the "main" subdirectory to track the application's current progress.**
 
 # Misc. Notes
 * As of now, the only tested functionality is with the Google Chrome web browser.
