@@ -32,6 +32,9 @@ Trading credit ratings when companies get upgraded/downgraded on Moody's and S&P
 
 # Todos
 * Fix the desktop/application icon
+* Fix current bug(s)
+* Create interfaces for all CRC[*] Python files
+* Possibly a wiki?
 
 # Functionality to be explored in the future
 * Because this is a proof of concept, other functionality with other brokerage will not be implemented at this time, but perhaps at another time.
