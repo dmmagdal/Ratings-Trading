@@ -43,6 +43,7 @@ def make_order(action, quantity, price=None):
 
 cid = 303
 
+# Gathers arguments for make_contract() and make_order() functions
 ticker = input("Please input the ticker symbol of the security you would like to trade: ")
 ticker = ticker.upper()
 order_action = input("Would you like to buy or sell? (B/S) ")
@@ -64,6 +65,12 @@ elif (type_order == 'MKT'):
 
 else:
     print("Please enter either 'LMT' or 'MKT'")
+
+
+# Connects to IB API to place buy/sell order
+
+# TODO: Fix issue with not being able to import Connection module
+
 
 while __name__ == "__main__":
     conn = Connection.create(port=7496, clientID=83625)
