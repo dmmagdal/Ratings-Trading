@@ -7,4 +7,4 @@ RUN pip3 install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-CMD [ "python", "ratingstrading.app/com/crcapital/main/CRCRatingsMain.py" ]
+CMD [ "python", "ratingstrading.src/com/crcapital/main/CRCRatingsMain.py" ]

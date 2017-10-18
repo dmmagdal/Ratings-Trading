@@ -3,10 +3,10 @@
     Author: Cristian Gonzales
 """
 
-import logging
 import scrapy
 
-from com.crcapital.main import CRCRatingsWebdriver
+from com.crcapital.webdriver import CRCRatingsWebdriver
+
 
 # TODO: Incorporate error handling so that if the URL returned is an error then it can be handled appropriately
 class CRCRatingsMoodys(scrapy.Spider):

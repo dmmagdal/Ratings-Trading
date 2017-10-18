@@ -11,7 +11,6 @@ sys.path.append('/com/crcapital/ratingscrawler/ratingscrawler')
 # Scrapy API
 from scrapy.crawler import CrawlerProcess
 
-
 """
     This is the main method that employs the use of scraping spiders and webdrivers in order to display information
     and interface with the brokerage API. The logic behind implementing Selenium is to have a more robust way of
@@ -23,6 +22,7 @@ def main():
 
     # Crawler process
     process = CrawlerProcess({'SPIDER_MODULES': 'com.crcapital.ratingscrawler.ratingscrawler.spiders'})
+    # process = CrawlerProcess({'SPIDER_MODULES': 'spiders'})
 
     process.crawl("Securities")
     process.start()

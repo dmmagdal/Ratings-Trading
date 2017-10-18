@@ -17,7 +17,7 @@ from tkinter import Radiobutton
 from tkinter import Button
 from tkinter import Tk
 
-from com.crcapital.ratingscrawler.ratingscrawler.CRCRatingsPair import CRCRatingsPair
+# from com.crcapital.ratingscrawler.ratingscrawler.CRCRatingsPair import CRCRatingsPair
 
 """
     Front end constructor that is passed the array of CRCRatingsPairs (ADT to abstract the tickers and statuses).
@@ -47,7 +47,6 @@ class CRCRatingsFrontend(tkinter.Frame):
 
         # While true, keep the application visible. Protocal calling on_closing to properly close the window
         # and terminate the thread
-        # TODO: Fix this (properly closing the thread)!
         # self.root.protocol("WM_DELETE_WINDOW", self.on_closing())
         self.root.mainloop()
 
@@ -63,10 +62,10 @@ class CRCRatingsFrontend(tkinter.Frame):
         frame.pack()
 
         # CRC logo
-        sys.path.append('../../../../CRC_Logo.png')
-        img = ImageTk.PhotoImage(Image.open("../../../../CRC_Logo.png"))
+        sys.path.append('../../../../images/CRC_Logo.png')
+        img = ImageTk.PhotoImage(Image.open("../../../../images/CRC_Logo.png"))
         # TODO: Fix icon
-        # master.iconbitmap("../../../../CRC_Logo.ico")
+        # master.iconbitmap("../../../../images/CRC_Logo.ico")
         img_panel = Label(master, image=img)
         img_panel.image = img
         img_panel.pack()

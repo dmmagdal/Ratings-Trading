@@ -1,3 +1,6 @@
+bs4>=0.0.1
+gevent>=1.2
+ib-api>=0.9
+ib>=0.8
 scrapy>=1.3
 selenium>=2.0
-gevent>=1.2

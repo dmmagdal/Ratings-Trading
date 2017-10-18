@@ -10,9 +10,12 @@ import scrapy
 from tkinter import messagebox, Tk
 
 import threading
+# To prevent any errors, quick fix to patch the thread
+import gevent.monkey; gevent.monkey.patch_thread()
+
 from bs4 import BeautifulSoup
 
-from com.crcapital.main import CRCRatingsWebdriver
+from com.crcapital.webdriver import CRCRatingsWebdriver
 from com.crcapital.frontend.CRCRatingsFrontend import CRCRatingsFrontend
 from com.crcapital.ratingscrawler.ratingscrawler.CRCRatingsPair import CRCRatingsPair
 
