@@ -36,5 +36,4 @@ Trading credit ratings when companies get upgraded/downgraded on Moody's and S&P
 
 # Functionality to be explored in the future
 * Because this is a proof of concept, other functionality with other brokerage will not be implemented at this time, but perhaps at another time.
-* Functionality with iOS and Android is something that can be explored in the future for this application. Though, to explore functionality with other trading workstations from different sources, we are currently focused on building around Desktop applications.
 * Full automation so that the application is open in the background while the machine is on, such that it will "auto-trade," so to speak, on a day-to-day basis (this is an option we are exploring in the near future). Tensorflow is an option in exploring the applications of ML to automating the process for traders and financial analyst, as ML/Data Analytics persists in the industry.
